@@ -1,0 +1,49 @@
+# RootIQ-Domain-QA-RAG Configuration File
+project:
+  name: "Domain-Specific Question Answering with RAG Evaluation"
+  version: "1.0.0"
+  domain: "Academic Regulations & Student Policies"
+
+paths:
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  eval_data_dir: "data/eval"
+  test_qa_file: "data/eval/test_qa.csv"
+  eval_results_file: "data/eval/eval_results.csv"
+  chroma_db_dir: "vectorstore/chroma_db"
+  logs_dir: "logs"
+
+ingestion:
+  chunk_size: 400
+  chunk_overlap: 50
+  clean_whitespace: true
+  remove_headers_footers: true
+
+embedding:
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
+  dimension: 384
+  device: "cpu" # 'cpu' or 'cuda'
+
+retrieval:
+  top_k: 5
+  similarity_metric: "cosine"
+  use_hybrid: false
+  use_reranker: false
+  reranker_model: "cross-encoder/ms-marco-MiniLM-L-6-v2"
+
+llm:
+  provider: "ollama" # 'ollama' or 'groq' or 'fallback'
+  model_name: "llama3.2:3b"
+  ollama_url: "http://localhost:11434"
+  temperature: 0.1
+  max_tokens: 512
+  timeout_seconds: 30
+
+evaluation:
+  batch_size: 5
+  metrics:
+    - context_precision
+    - context_recall
+    - faithfulness
+    - answer_relevancy
+    - answer_correctness

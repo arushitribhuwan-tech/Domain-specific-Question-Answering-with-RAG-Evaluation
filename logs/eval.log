@@ -1,0 +1,23 @@
+[2026-09-12 23:52:03] [INFO] [EvaluationRunner]: Starting batch evaluation on 5 test questions...
+[2026-09-12 23:52:03] [INFO] [EvaluationRunner]: [1/5] Q: 'What is the minimum aggregate atten...' | Faithfulness: 0.0 | Correctness: 0.0 | Latency: 0ms
+[2026-09-12 23:52:03] [INFO] [EvaluationRunner]: [2/5] Q: 'Can attendance shortage be condoned...' | Faithfulness: 0.0 | Correctness: 0.0 | Latency: 0ms
+[2026-09-12 23:52:03] [INFO] [EvaluationRunner]: [3/5] Q: 'What happens if a student has atten...' | Faithfulness: 0.0 | Correctness: 0.0 | Latency: 0ms
+[2026-09-12 23:52:03] [INFO] [EvaluationRunner]: [4/5] Q: 'What is the late registration fee a...' | Faithfulness: 0.0 | Correctness: 0.0 | Latency: 0ms
+[2026-09-12 23:52:03] [INFO] [EvaluationRunner]: [5/5] Q: 'How many total academic credits are...' | Faithfulness: 0.0 | Correctness: 0.0 | Latency: 0ms
+[2026-09-12 23:52:03] [INFO] [EvaluationRunner]: Evaluation complete! Saved report to 'data/eval/eval_results.csv'.
+[2026-09-12 23:52:52] [INFO] [EvaluationRunner]: Vectorstore is empty. Auto-ingesting documents from data/raw/...
+[2026-09-12 23:52:52] [INFO] [EvaluationRunner]: Starting batch evaluation on 5 test questions...
+[2026-09-12 23:52:56] [INFO] [EvaluationRunner]: [1/5] Q: 'What is the minimum aggregate atten...' | Faithfulness: 0.7317 | Correctness: 0.5 | Latency: 4055ms
+[2026-09-12 23:53:00] [INFO] [EvaluationRunner]: [2/5] Q: 'Can attendance shortage be condoned...' | Faithfulness: 0.7317 | Correctness: 0.0656 | Latency: 4047ms
+[2026-09-12 23:53:04] [INFO] [EvaluationRunner]: [3/5] Q: 'What happens if a student has atten...' | Faithfulness: 0.7073 | Correctness: 0.1176 | Latency: 4074ms
+[2026-09-12 23:53:08] [INFO] [EvaluationRunner]: [4/5] Q: 'What is the late registration fee a...' | Faithfulness: 0.6452 | Correctness: 0.2439 | Latency: 4087ms
+[2026-09-12 23:53:12] [INFO] [EvaluationRunner]: [5/5] Q: 'How many total academic credits are...' | Faithfulness: 0.5862 | Correctness: 0.5854 | Latency: 4089ms
+[2026-09-12 23:53:12] [INFO] [EvaluationRunner]: Evaluation complete! Saved report to 'data/eval/eval_results.csv'.
+[2026-09-12 23:54:43] [INFO] [EvaluationRunner]: Vectorstore is empty. Auto-ingesting documents from data/raw/...
+[2026-09-12 23:54:43] [INFO] [EvaluationRunner]: Starting batch evaluation on 5 test questions...
+[2026-09-12 23:54:45] [INFO] [EvaluationRunner]: [1/5] Q: 'What is the minimum aggregate atten...' | Faithfulness: 0.7317 | Correctness: 0.5 | Latency: 2023ms
+[2026-09-12 23:54:45] [INFO] [EvaluationRunner]: [2/5] Q: 'Can attendance shortage be condoned...' | Faithfulness: 0.6765 | Correctness: 0.0741 | Latency: 0ms
+[2026-09-12 23:54:45] [INFO] [EvaluationRunner]: [3/5] Q: 'What happens if a student has atten...' | Faithfulness: 0.7073 | Correctness: 0.1176 | Latency: 0ms
+[2026-09-12 23:54:45] [INFO] [EvaluationRunner]: [4/5] Q: 'What is the late registration fee a...' | Faithfulness: 0.6129 | Correctness: 0.2439 | Latency: 0ms
+[2026-09-12 23:54:45] [INFO] [EvaluationRunner]: [5/5] Q: 'How many total academic credits are...' | Faithfulness: 0.8036 | Correctness: 0.1176 | Latency: 0ms
+[2026-09-12 23:54:45] [INFO] [EvaluationRunner]: Evaluation complete! Saved report to 'data/eval/eval_results.csv'.

@@ -1,0 +1,107 @@
+================================================================================
+ACADEMIC REGULATIONS & STUDENT HANDBOOK
+Department of Higher Education & University Academic Council
+Academic Year 2024-2025
+================================================================================
+
+[SECTION 1: ADMISSION & ENROLLMENT POLICIES]
+1.1 Eligibility for Undergraduate Admissions:
+Candidates applying for undergraduate engineering and technology programs must have completed 10+2 or equivalent examination with minimum 60% aggregate marks in Physics, Chemistry, and Mathematics (55% for reserved category students). Admission is conducted through the centralized counseling process based on standardized entrance examination scores.
+
+1.2 Late Registration:
+Students must complete their course semester registration within 7 working days from the commencement of the semester. A late registration fee of INR 1,000 is applicable for registration up to 14 working days. No registration shall be entertained after 14 days without explicit approval from the Dean of Academic Affairs.
+
+1.3 Identity Card & Access:
+Every enrolled student is issued a Radio Frequency Identification (RFID) enabled Smart Campus Card. The card is mandatory for entry to lecture halls, laboratories, central library, and examination venues. Loss of card must be reported immediately to the Academic Registrar office with a replacement fee of INR 500.
+
+--------------------------------------------------------------------------------
+
+[SECTION 2: CREDIT SYSTEM & COURSE WORK]
+2.1 Choice Based Credit System (CBCS):
+The university strictly follows a Choice Based Credit System (CBCS). One lecture hour per week corresponds to 1 credit. Two laboratory or practical hours per week correspond to 1 credit. A standard 4-year undergraduate degree requires successful completion of a minimum of 160 cumulative academic credits.
+
+2.2 Semester Credit Load:
+In any regular semester, a student is permitted to register for a minimum of 18 credits and a maximum of 26 credits. Registration beyond 26 credits requires a minimum CGPA of 8.5 and prior written approval from the Department Academic Advisory Committee (DAAC).
+
+2.3 Audit Courses:
+A student with a CGPA greater than or equal to 7.0 may register for up to two audit courses during their entire degree program. Audit courses do not carry grade points and do not count towards the CGPA, but satisfactory attendance (>75%) is mandatory for the audit course to appear on the final transcript.
+
+--------------------------------------------------------------------------------
+
+[SECTION 3: ATTENDANCE REGULATIONS]
+3.1 Minimum Attendance Requirement:
+Every student is required to maintain a minimum aggregate attendance of 75% in each registered course (theory and practical separately) to be eligible to appear for the End Semester Examinations (ESE).
+
+3.2 Condonation of Attendance Shortage:
+The Dean of Academic Affairs may condone attendance shortage up to 10% (i.e., attendance between 65% and 74.9%) purely on valid medical grounds or university-authorized participation in national/international sports or cultural events. Condonation requires submission of an authentic medical certificate and hospital discharge summary within 5 working days of resumption of classes, accompanied by a condonation processing fee of INR 1,500.
+
+3.3 Detention Policy:
+Students with attendance falling below 65% in any course under any circumstances shall be summarily detained in that course. The detained student receives an 'FA' (Failed due to Attendance) grade and must re-register for that course when offered in subsequent semesters.
+
+--------------------------------------------------------------------------------
+
+[SECTION 4: EXAMINATION & EVALUATION SCHEME]
+4.1 Weightage of Assessments:
+The evaluation of each course consists of Continuous Internal Evaluation (CIE) with 40% weightage and End Semester Examination (ESE) with 60% weightage.
+Continuous Internal Evaluation (CIE) comprises:
+- Two Mid-Semester Tests (MST 1 and MST 2): 20% (best of two or average as per syllabus)
+- Quizzes and Assignments: 10%
+- Course Project or Seminar: 10%
+
+4.2 Passing Criteria:
+To pass a registered course, a student must secure:
+- A minimum of 40% marks in the End Semester Examination (24 out of 60 marks).
+- An aggregate of 40% marks in CIE and ESE combined (40 out of 100 marks).
+Failure to secure either condition results in an 'F' (Fail) grade.
+
+4.3 10-Point Letter Grading Scale:
+Grades are awarded on a 10-point scale:
+- Grade 'O' (Outstanding): 90-100% marks, Grade Point 10
+- Grade 'A+' (Excellent): 80-89% marks, Grade Point 9
+- Grade 'A' (Very Good): 70-79% marks, Grade Point 8
+- Grade 'B+' (Good): 60-69% marks, Grade Point 7
+- Grade 'B' (Above Average): 55-59% marks, Grade Point 6
+- Grade 'C' (Average): 50-54% marks, Grade Point 5
+- Grade 'P' (Pass): 40-49% marks, Grade Point 4
+- Grade 'F' (Fail): Below 40% marks, Grade Point 0
+- Grade 'Ab' (Absent): Grade Point 0
+
+4.4 SGPA and CGPA Calculation:
+- Semester Grade Point Average (SGPA) = Sum(Credits_i * GradePoint_i) / Sum(Credits_i) for all courses in the semester.
+- Cumulative Grade Point Average (CGPA) = Sum of (Credit * Grade Point) across all semesters completed divided by the total credits registered.
+
+--------------------------------------------------------------------------------
+
+[SECTION 5: PROMOTION RULES & SUPPLEMENTARY EXAMS]
+5.1 Year-to-Year Promotion:
+- Promotion from 1st Year to 2nd Year: A student must have earned at least 50% of the total registered credits in the 1st and 2nd semesters combined.
+- Promotion from 2nd Year to 3rd Year: A student must have cleared all 1st-year core courses and earned at least 60% of total credits up to 4th semester.
+- Promotion from 3rd Year to 4th Year: A student must have cleared all 2nd-year courses and earned at least 70% of total credits up to 6th semester.
+
+5.2 Supplementary / Backlog Examinations:
+Supplementary examinations are conducted immediately after the announcement of even semester results (during summer break). A student can register for a maximum of 4 backlog courses in a supplementary examination cycle. The examination fee per backlog course is INR 750.
+
+--------------------------------------------------------------------------------
+
+[SECTION 6: SCHOLARSHIPS & FINANCIAL ASSISTANCE]
+6.1 Merit Scholarship:
+Merit scholarships covering 100% of tuition fees are awarded to the top 3% students of each branch based on annual CGPA, provided the CGPA is 9.0 or above with zero backlogs. Top 4% to 10% students receive a 50% tuition waiver.
+
+6.2 Need-based Financial Aid:
+Students from economically weaker sections whose family annual income is below INR 3,00,000 may apply for the University Need-Cum-Merit Scholarship. Applications open in the month of August every academic year and require an authentic Income Certificate issued by the Revenue Authority.
+
+6.3 Research Fellowship for Undergraduate Projects:
+Undergraduate students with a CGPA > 8.0 publishing research papers in peer-reviewed Scopus/SCI-indexed journals or filed patents can receive a one-time project grant of up to INR 25,000 from the University Innovation & Incubation Center.
+
+--------------------------------------------------------------------------------
+
+[SECTION 7: CODE OF CONDUCT & DISCIPLINARY ACTIONS]
+7.1 Anti-Ragging Regulations:
+Ragging in any form (physical, verbal, or mental harassment) inside or outside the campus premises is strictly prohibited under the Supreme Court of India and UGC Regulations. Any student found guilty of ragging faces immediate suspension, expulsion from the university, and criminal FIR registration.
+
+7.2 Academic Integrity & Plagiarism:
+Assignments, term papers, and project reports undergo automated similarity checks. Similarity exceeding 15% (excluding bibliography and self-citations) is deemed plagiarism. Minor plagiarism (15-25%) results in report resubmission with a grade penalty. Major plagiarism (>25%) results in awarding an 'F' grade for the project and disciplinary hearing.
+
+7.3 Campus Timing & Curfew:
+Hostel gates close strictly at 10:00 PM on weekdays and 10:30 PM on weekends. Late entry requires prior written approval from the Chief Warden. Unexcused late entry on more than two occasions invites a disciplinary fine of INR 1,000.
+================================================================================

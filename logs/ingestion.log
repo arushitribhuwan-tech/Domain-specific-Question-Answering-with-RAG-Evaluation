@@ -1,0 +1,85 @@
+[2026-09-12 23:49:28] [INFO] [DocumentLoader]: Successfully loaded 'academic_regulations_handbook.txt' (1 pages/sections).
+[2026-09-12 23:49:28] [INFO] [DocumentLoader]: Ingested total of 1 document sections from 1 files.
+[2026-09-12 23:49:28] [INFO] [DocumentChunker]: LangChain not installed. Using built-in recursive chunker.
+[2026-09-12 23:49:28] [INFO] [DocumentChunker]: Chunked 1 documents into 30 chunks.
+[2026-09-12 23:49:28] [INFO] [DocumentChunker]: Saved chunks summary to 'data/processed\chunks_summary.json'.
+[2026-09-12 23:49:36] [INFO] [DocumentLoader]: Successfully loaded 'academic_regulations_handbook.txt' (1 pages/sections).
+[2026-09-12 23:49:36] [INFO] [DocumentLoader]: Ingested total of 1 document sections from 1 files.
+[2026-09-12 23:49:36] [INFO] [DocumentChunker]: LangChain not installed. Using built-in recursive chunker.
+[2026-09-12 23:49:36] [INFO] [DocumentChunker]: Chunked 1 documents into 6 chunks.
+[2026-09-12 23:49:36] [INFO] [DocumentChunker]: Saved chunks summary to 'data/processed\chunks_summary.json'.
+[2026-09-12 23:49:36] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-12 23:49:36] [WARNING] [EmbeddingService]: ChromaDB initialization failed: No module named 'chromadb'. In-memory fallback will be used.
+[2026-09-12 23:49:36] [INFO] [EmbeddingService]: Indexed 6 chunks into in-memory fallback store.
+[2026-09-12 23:50:11] [INFO] [DocumentChunker]: LangChain not installed. Using built-in recursive chunker.
+[2026-09-12 23:50:11] [INFO] [DocumentChunker]: Chunked 1 documents into 15 chunks.
+[2026-09-12 23:50:11] [INFO] [DocumentChunker]: Saved chunks summary to 'data/processed\chunks_summary.json'.
+[2026-09-12 23:50:11] [WARNING] [DocumentLoader]: Raw data directory 'data/non_existent_folder_xyz' does not exist. Creating it.
+[2026-09-12 23:51:20] [INFO] [DocumentChunker]: LangChain not installed. Using built-in recursive chunker.
+[2026-09-12 23:51:20] [INFO] [DocumentChunker]: Chunked 1 documents into 15 chunks.
+[2026-09-12 23:51:20] [INFO] [DocumentChunker]: Saved chunks summary to 'data/processed\chunks_summary.json'.
+[2026-09-12 23:51:20] [WARNING] [DocumentLoader]: No files found in 'data/non_existent_folder_xyz'.
+[2026-09-12 23:51:33] [INFO] [DocumentChunker]: LangChain not installed. Using built-in recursive chunker.
+[2026-09-12 23:51:33] [INFO] [DocumentChunker]: Chunked 1 documents into 15 chunks.
+[2026-09-12 23:51:33] [INFO] [DocumentChunker]: Saved chunks summary to 'data/processed\chunks_summary.json'.
+[2026-09-12 23:51:33] [WARNING] [DocumentLoader]: No files found in 'data/non_existent_folder_xyz'.
+[2026-09-12 23:51:33] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-12 23:51:33] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-12 23:51:33] [WARNING] [EmbeddingService]: ChromaDB initialization failed: No module named 'chromadb'. In-memory fallback will be used.
+[2026-09-12 23:51:33] [INFO] [EmbeddingService]: Indexed 2 chunks into in-memory fallback store.
+[2026-09-12 23:51:33] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-12 23:51:33] [WARNING] [EmbeddingService]: ChromaDB initialization failed: No module named 'chromadb'. In-memory fallback will be used.
+[2026-09-12 23:51:33] [INFO] [EmbeddingService]: Indexed 1 chunks into in-memory fallback store.
+[2026-09-12 23:51:41] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-12 23:51:41] [WARNING] [EmbeddingService]: ChromaDB initialization failed: No module named 'chromadb'. In-memory fallback will be used.
+[2026-09-12 23:52:03] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-12 23:52:03] [WARNING] [EmbeddingService]: ChromaDB initialization failed: No module named 'chromadb'. In-memory fallback will be used.
+[2026-09-12 23:52:52] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-12 23:52:52] [WARNING] [EmbeddingService]: ChromaDB initialization failed: No module named 'chromadb'. In-memory fallback will be used.
+[2026-09-12 23:52:52] [INFO] [DocumentLoader]: Successfully loaded 'academic_regulations_handbook.txt' (1 pages/sections).
+[2026-09-12 23:52:52] [INFO] [DocumentLoader]: Ingested total of 1 document sections from 1 files.
+[2026-09-12 23:52:52] [INFO] [DocumentChunker]: LangChain not installed. Using built-in recursive chunker.
+[2026-09-12 23:52:52] [INFO] [DocumentChunker]: Chunked 1 documents into 6 chunks.
+[2026-09-12 23:52:52] [INFO] [DocumentChunker]: Saved chunks summary to 'data/processed\chunks_summary.json'.
+[2026-09-12 23:52:52] [INFO] [EmbeddingService]: Indexed 6 chunks into in-memory fallback store.
+[2026-09-12 23:54:43] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-12 23:54:43] [WARNING] [EmbeddingService]: ChromaDB initialization failed: No module named 'chromadb'. In-memory fallback will be used.
+[2026-09-12 23:54:43] [INFO] [DocumentLoader]: Successfully loaded 'academic_regulations_handbook.txt' (1 pages/sections).
+[2026-09-12 23:54:43] [INFO] [DocumentLoader]: Ingested total of 1 document sections from 1 files.
+[2026-09-12 23:54:43] [INFO] [DocumentChunker]: LangChain not installed. Using built-in recursive chunker.
+[2026-09-12 23:54:43] [INFO] [DocumentChunker]: Chunked 1 documents into 6 chunks.
+[2026-09-12 23:54:43] [INFO] [DocumentChunker]: Saved chunks summary to 'data/processed\chunks_summary.json'.
+[2026-09-12 23:54:43] [INFO] [EmbeddingService]: Indexed 6 chunks into in-memory fallback store.
+[2026-09-12 23:56:19] [INFO] [DocumentChunker]: LangChain not installed. Using built-in recursive chunker.
+[2026-09-12 23:56:19] [INFO] [DocumentChunker]: Chunked 1 documents into 15 chunks.
+[2026-09-12 23:56:19] [INFO] [DocumentChunker]: Saved chunks summary to 'data/processed\chunks_summary.json'.
+[2026-09-12 23:56:19] [WARNING] [DocumentLoader]: No files found in 'data/non_existent_folder_xyz'.
+[2026-09-12 23:56:19] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-12 23:56:19] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-12 23:56:19] [WARNING] [EmbeddingService]: ChromaDB initialization failed: No module named 'chromadb'. In-memory fallback will be used.
+[2026-09-12 23:56:19] [INFO] [EmbeddingService]: Indexed 2 chunks into in-memory fallback store.
+[2026-09-12 23:56:19] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-12 23:56:19] [WARNING] [EmbeddingService]: ChromaDB initialization failed: No module named 'chromadb'. In-memory fallback will be used.
+[2026-09-12 23:56:19] [INFO] [EmbeddingService]: Indexed 1 chunks into in-memory fallback store.
+[2026-09-13 00:00:58] [INFO] [DocumentChunker]: LangChain not installed. Using built-in recursive chunker.
+[2026-09-13 00:00:58] [INFO] [DocumentChunker]: Chunked 1 documents into 15 chunks.
+[2026-09-13 00:00:58] [INFO] [DocumentChunker]: Saved chunks summary to 'data/processed\chunks_summary.json'.
+[2026-09-13 00:00:58] [WARNING] [DocumentLoader]: No files found in 'data/non_existent_folder_xyz'.
+[2026-09-13 00:00:58] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-13 00:00:58] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-13 00:00:58] [WARNING] [EmbeddingService]: ChromaDB initialization failed: No module named 'chromadb'. In-memory fallback will be used.
+[2026-09-13 00:00:58] [INFO] [EmbeddingService]: Indexed 2 chunks into in-memory fallback store.
+[2026-09-13 00:00:58] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-13 00:00:58] [WARNING] [EmbeddingService]: ChromaDB initialization failed: No module named 'chromadb'. In-memory fallback will be used.
+[2026-09-13 00:00:58] [INFO] [EmbeddingService]: Indexed 1 chunks into in-memory fallback store.
+[2026-09-13 17:14:02] [INFO] [DocumentChunker]: LangChain not installed. Using built-in recursive chunker.
+[2026-09-13 17:14:02] [INFO] [DocumentChunker]: Chunked 1 documents into 15 chunks.
+[2026-09-13 17:14:02] [INFO] [DocumentChunker]: Saved chunks summary to 'data/processed\chunks_summary.json'.
+[2026-09-13 17:14:02] [WARNING] [DocumentLoader]: No files found in 'data/non_existent_folder_xyz'.
+[2026-09-13 17:14:02] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-13 17:14:02] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-13 17:14:02] [WARNING] [EmbeddingService]: ChromaDB initialization failed: No module named 'chromadb'. In-memory fallback will be used.
+[2026-09-13 17:14:02] [INFO] [EmbeddingService]: Indexed 2 chunks into in-memory fallback store.
+[2026-09-13 17:14:02] [WARNING] [EmbeddingService]: Could not load SentenceTransformer ('No module named 'sentence_transformers''). Fallback dummy embeddings enabled.
+[2026-09-13 17:14:02] [WARNING] [EmbeddingService]: ChromaDB initialization failed: No module named 'chromadb'. In-memory fallback will be used.
+[2026-09-13 17:14:02] [INFO] [EmbeddingService]: Indexed 1 chunks into in-memory fallback store.

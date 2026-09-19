@@ -1,0 +1,26 @@
+question_id,question,retrieved_chunk_ids,generated_answer,reference_answer,retrieval_latency_ms,generation_latency_ms,total_latency_ms,context_precision,context_recall,faithfulness,answer_relevancy,answer_correctness
+1,What is the minimum aggregate attendance required to appear for End Semester Examinations?,academic_regulations_handbook.txt_p1_c2;academic_regulations_handbook.txt_p1_c1;academic_regulations_handbook.txt_p1_c3;academic_regulations_handbook.txt_p1_c5;academic_regulations_handbook.txt_p1_c6,"Based on [Source 1: academic_regulations_handbook.txt, Page 1]:
+
+[SECTION 3: ATTENDANCE REGULATIONS] 3.1 Minimum Attendance Requirement: Every student is required to maintain a minimum aggregate attendance of 75% in each registered course (theory and practical separately) to be eligible to appear for the End Semester Examinations (ESE).
+
+*(Note: Generated via extractive grounded fallback as Ollama was offline)*",A student must maintain a minimum aggregate attendance of 75% in each registered course to be eligible for End Semester Examinations.,0,2023,2023,0.8,1.0,0.7317,0.6857,0.5
+2,Can attendance shortage be condoned and what is the limit?,academic_regulations_handbook.txt_p1_c3;academic_regulations_handbook.txt_p1_c2;academic_regulations_handbook.txt_p1_c1;academic_regulations_handbook.txt_p1_c5;academic_regulations_handbook.txt_p1_c6,"Based on [Source 1: academic_regulations_handbook.txt, Page 1]:
+
+imum aggregate attendance of 75% in each registered course (theory and practical separately) to be eligible to appear for the End Semester Examinations (ESE).
+
+*(Note: Generated via extractive grounded fallback as Ollama was offline)*",Yes. Attendance shortage up to 10% (between 65% and 74.9%) may be condoned on valid medical grounds or university-authorized sports/cultural participation.,0,0,0,1.0,0.9,0.6765,0.4769,0.0741
+3,What happens if a student has attendance below 65%?,academic_regulations_handbook.txt_p1_c2;academic_regulations_handbook.txt_p1_c5;academic_regulations_handbook.txt_p1_c3;academic_regulations_handbook.txt_p1_c4;academic_regulations_handbook.txt_p1_c6,"Based on [Source 1: academic_regulations_handbook.txt, Page 1]:
+
+[SECTION 3: ATTENDANCE REGULATIONS] 3.1 Minimum Attendance Requirement: Every student is required to maintain a minimum aggregate attendance of 75% in each registered course (theory and practical separately) to be eligible to appear for the End Semester Examinations (ESE).
+
+*(Note: Generated via extractive grounded fallback as Ollama was offline)*",A student with attendance below 65% is summarily detained in that course and receives an FA grade.,0,0,0,1.0,1.0,0.7073,0.4638,0.1176
+4,What is the late registration fee after 7 working days?,academic_regulations_handbook.txt_p1_c1;academic_regulations_handbook.txt_p1_c5;academic_regulations_handbook.txt_p1_c6;academic_regulations_handbook.txt_p1_c2;academic_regulations_handbook.txt_p1_c4,"Based on [Source 1: academic_regulations_handbook.txt, Page 1]:
+
+1.2 Late Registration: Students must complete their course semester registration within 7 working days from the commencement of the semester.
+
+*(Note: Generated via extractive grounded fallback as Ollama was offline)*","The late registration fee is INR 1,000 for registration up to 14 working days.",0,0,0,1.0,1.0,0.6129,0.6206,0.2439
+5,How many total academic credits are required for a 4-year undergraduate degree?,academic_regulations_handbook.txt_p1_c1;academic_regulations_handbook.txt_p1_c2;academic_regulations_handbook.txt_p1_c5;academic_regulations_handbook.txt_p1_c3;academic_regulations_handbook.txt_p1_c6,"Based on [Source 1: academic_regulations_handbook.txt, Page 1]:
+
+ACADEMIC REGULATIONS & STUDENT HANDBOOK Department of Higher Education & University Academic Council Academic Year 2024-2025  [SECTION 1: ADMISSION & ENROLLMENT POLICIES] 1.1 Eligibility for Undergraduate Admissions: Candidates applying for undergraduate engineering and technology programs must have completed 10+2 or equivalent examination with minimum 60% aggregate marks in Physics, Chemistry, and Mathematics (55% for reserved category students).
+
+*(Note: Generated via extractive grounded fallback as Ollama was offline)*",A standard 4-year undergraduate degree requires completion of a minimum of 160 cumulative academic credits.,0,0,0,1.0,1.0,0.8036,0.4714,0.1176
