@@ -1,7 +1,7 @@
 # Domain-Specific Question Answering with RAG Evaluation (RootIQ-RAG)
 ## 🚀 Live Demo
 
-[👉 Open Streamlit App](https://domain-specific-question-answering-with-rag-evaluation-twcx66t.streamlit.app/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://domain-specific-question-answering-with-rag-evaluation-twcx66t.streamlit.app/)
 [![CI](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/arushitribhuwan-tech/Domain-specific-Question-Answering-with-RAG-Evaluation)
 [![Tests](https://img.shields.io/badge/tests-10%2F10%20passed-brightgreen.svg)](https://github.com/arushitribhuwan-tech/Domain-specific-Question-Answering-with-RAG-Evaluation)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue.svg)](https://www.python.org/downloads/)
