@@ -280,14 +280,23 @@ with st.sidebar:
 
     # Pipeline Settings & System Health
     st.markdown("### ⚙️ Engine Settings")
+    groq_api_key = st.text_input(
+        "🔑 Groq API Key (Free, Optional)",
+        type="password",
+        value=os.environ.get("GROQ_API_KEY", ""),
+        help="Paste a free Groq API key from https://console.groq.com/keys for instant, highly accurate Llama-3.3-70B answers!"
+    )
+
     top_k = st.slider("Top-K Retrieval", min_value=1, max_value=10, value=config.get("retrieval", {}).get("top_k", 5))
     temperature = st.slider("LLM Temperature", min_value=0.0, max_value=1.0, value=float(config.get("llm", {}).get("temperature", 0.1)), step=0.05)
 
     ollama_online = llm_service.check_ollama_status()
-    if ollama_online:
-        st.caption(f"🟢 LLM Runtime: Ollama (`{llm_service.model_name}`)")
+    if groq_api_key and len(groq_api_key.strip()) > 10:
+        st.success("🟢 Engine: Groq Cloud (Llama-3.3-70B)")
+    elif ollama_online:
+        st.success(f"🟢 Engine: Local Ollama (`{llm_service.model_name}`)")
     else:
-        st.caption("🟡 LLM Runtime: Grounded Extractive Fallback")
+        st.warning("🟡 Engine: Grounded Synthesizer (Ollama offline)")
     st.caption(f"💾 Total Indexed Chunks: {vectorstore.get_chunk_count()}")
 
 
@@ -357,7 +366,7 @@ with tab_chat:
 
                     t1 = time.time()
                     llm_service.temperature = temperature
-                    response = llm_service.generate_answer(user_query, retrieved_chunks)
+                    response = llm_service.generate_answer(user_query, retrieved_chunks, groq_key_override=groq_api_key)
                     generation_ms = int((time.time() - t1) * 1000)
 
                     total_ms = retrieval_ms + generation_ms
@@ -365,6 +374,7 @@ with tab_chat:
                     sources = response.get("sources", [])
 
                     st.markdown(answer_text)
+                    st.caption(f"⚡ Latency: {total_ms}ms | Engine: `{response.get('model_used', 'RAG')}`")
 
                     if sources:
                         with st.expander(f"📚 Verified Sources ({len(sources)}) | Retrieval: {retrieval_ms}ms | Generation: {generation_ms}ms"):

@@ -1,11 +1,15 @@
 """
 LLM Service module.
-Communicates with local Ollama runtime (http://localhost:11434)
-and provides resilient fallback handling with latency profiling.
+Communicates with:
+1. Cloud LLM (Groq API - Llama 3.3 70B / Llama 3.1 8B, fast & 100% free)
+2. Local Ollama runtime (http://localhost:11434)
+3. Resilient multi-chunk semantic synthesis fallback
 """
 
+import os
 import time
 import json
+import re
 import requests
 from typing import List, Dict, Any, Optional
 from src.generation.prompt_builder import PromptBuilder
@@ -15,19 +19,21 @@ logger = get_logger("LLMService")
 
 
 class LLMService:
-    """Manages text generation using local Ollama instance or fallback."""
+    """Manages text generation using Groq API, local Ollama instance, or smart extractive fallback."""
 
     def __init__(
         self,
         ollama_url: str = "http://localhost:11434",
         model_name: str = "llama3.2:3b",
         temperature: float = 0.1,
-        timeout: int = 30
+        timeout: int = 30,
+        groq_api_key: Optional[str] = None
     ):
         self.ollama_url = ollama_url.rstrip("/")
         self.model_name = model_name
         self.temperature = temperature
         self.timeout = timeout
+        self.groq_api_key = groq_api_key or os.environ.get("GROQ_API_KEY", "")
         self._last_ollama_check_time = 0
         self._ollama_online_cache = None
 
@@ -46,43 +52,82 @@ class LLMService:
         self._last_ollama_check_time = current_time
         return self._ollama_online_cache
 
-    def generate_answer(self, query: str, chunks: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def generate_answer(
+        self,
+        query: str,
+        chunks: List[Dict[str, Any]],
+        groq_key_override: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         Generates grounded answer from query and context chunks.
 
         Args:
             query: User's question.
             chunks: Retrieved context chunks.
+            groq_key_override: Optional Groq API key passed from UI.
 
         Returns:
-            Dict containing:
-            {
-                'answer': str,
-                'sources': list,
-                'latency_ms': int,
-                'model_used': str,
-                'prompt': str
-            }
+            Dict containing answer, sources, latency_ms, model_used, prompt.
         """
         prompt = PromptBuilder.build_prompt(query, chunks)
         start_time = time.time()
 
-        # If no chunks were retrieved or highest similarity is too low, reject early
+        # Guardrail: If no chunks or similarity score is below threshold, refuse to fabricate
         if not chunks or (chunks and chunks[0].get("score", 1.0) < 0.20):
             answer = (
-                "I do not have enough information in the provided domain documents to answer this question. "
-                "The query appears out-of-domain or not present in the indexed regulations."
+                "I do not have enough information in the provided domain document to answer this question. "
+                "The query appears out-of-domain or is not mentioned in the active document."
             )
             latency_ms = int((time.time() - start_time) * 1000)
             return {
                 "answer": answer,
                 "sources": [],
                 "latency_ms": latency_ms,
-                "model_used": "refusal_filter",
+                "model_used": "refusal_guardrail",
                 "prompt": prompt
             }
 
-        # Attempt Ollama inference if server is running
+        # 1. Option 1: Cloud Groq API (High accuracy, blazing fast, free)
+        active_groq_key = groq_key_override or self.groq_api_key
+        if active_groq_key and len(active_groq_key.strip()) > 10:
+            try:
+                headers = {
+                    "Authorization": f"Bearer {active_groq_key.strip()}",
+                    "Content-Type": "application/json"
+                }
+                payload = {
+                    "model": "llama-3.3-70b-versatile",
+                    "messages": [
+                        {"role": "system", "content": PromptBuilder.SYSTEM_INSTRUCTION},
+                        {"role": "user", "content": prompt}
+                    ],
+                    "temperature": self.temperature,
+                    "max_tokens": 600
+                }
+                resp = requests.post(
+                    "https://api.groq.com/openai/v1/chat/completions",
+                    headers=headers,
+                    json=payload,
+                    timeout=20
+                )
+                if resp.status_code == 200:
+                    data = resp.json()
+                    answer_text = data["choices"][0]["message"]["content"].strip()
+                    latency_ms = int((time.time() - start_time) * 1000)
+                    sources = self._extract_sources(chunks)
+                    return {
+                        "answer": answer_text,
+                        "sources": sources,
+                        "latency_ms": latency_ms,
+                        "model_used": "Groq (Llama-3.3-70B)",
+                        "prompt": prompt
+                    }
+                else:
+                    logger.warning(f"Groq API returned HTTP {resp.status_code}: {resp.text}")
+            except Exception as e:
+                logger.error(f"Groq API call failed: {e}")
+
+        # 2. Option 2: Local Ollama daemon
         if self.check_ollama_status():
             try:
                 payload = {
@@ -93,37 +138,28 @@ class LLMService:
                         "temperature": self.temperature
                     }
                 }
-
                 resp = requests.post(
                     f"{self.ollama_url}/api/generate",
                     json=payload,
                     timeout=self.timeout
                 )
-
                 if resp.status_code == 200:
                     data = resp.json()
                     answer_text = data.get("response", "").strip()
                     latency_ms = int((time.time() - start_time) * 1000)
                     sources = self._extract_sources(chunks)
-
                     return {
                         "answer": answer_text,
                         "sources": sources,
                         "latency_ms": latency_ms,
-                        "model_used": self.model_name,
+                        "model_used": f"Ollama ({self.model_name})",
                         "prompt": prompt
                     }
-                else:
-                    logger.warning(f"Ollama returned HTTP {resp.status_code}: {resp.text}. Using fallback.")
-
-            except requests.exceptions.ConnectionError:
-                logger.warning("Ollama service not detected at http://localhost:11434. Operating in extractive fallback mode.")
             except Exception as e:
-                logger.error(f"Error calling LLM: {e}. Operating in extractive fallback mode.")
+                logger.error(f"Ollama call failed: {e}")
 
-        # Resilient offline extractive fallback:
-        # Synthesizes an answer directly from the top retrieved chunks so the app runs without crashing
-        answer_text = self._extractive_fallback(query, chunks)
+        # 3. Option 3: Upgraded Multi-Chunk Grounded Synthesis Fallback
+        answer_text = self._smart_synthesis_fallback(query, chunks)
         latency_ms = int((time.time() - start_time) * 1000)
         sources = self._extract_sources(chunks)
 
@@ -131,7 +167,7 @@ class LLMService:
             "answer": answer_text,
             "sources": sources,
             "latency_ms": latency_ms,
-            "model_used": f"{self.model_name} (Local-Offline-Fallback)",
+            "model_used": "Offline Grounded Synthesizer",
             "prompt": prompt
         }
 
@@ -148,41 +184,61 @@ class LLMService:
                     "page_number": c.get("page_number", 1),
                     "chunk_id": c.get("chunk_id"),
                     "score": c.get("score", 0.0),
-                    "snippet": c.get("text", "")[:180] + "..."
+                    "snippet": c.get("text", "")[:200] + "..."
                 })
         return sources
 
-    def _extractive_fallback(self, query: str, chunks: List[Dict[str, Any]]) -> str:
-        """Grounded fallback extractor when local Ollama daemon is offline."""
+    def _smart_synthesis_fallback(self, query: str, chunks: List[Dict[str, Any]]) -> str:
+        """
+        Synthesizes an informative, structured answer by scoring sentences across all top chunks.
+        """
         if not chunks:
             return "I do not have enough information in the provided domain documents to answer this question."
 
-        top_chunk = chunks[0]
-        text = top_chunk.get("text", "")
+        query_tokens = set(re.findall(r"\w+", query.lower()))
+        stopwords = {"what", "is", "the", "are", "of", "in", "to", "for", "and", "a", "an", "how", "can", "do", "does"}
+        meaningful_query_words = query_tokens - stopwords
 
-        # Find the most relevant sentence from the top chunk
-        sentences = [s.strip() for s in text.replace("\n", " ").split(". ") if s.strip()]
-        query_words = set(query.lower().split())
+        scored_sentences = []
+        seen_sentences = set()
 
-        best_sentence = ""
-        best_overlap = -1
+        for chunk_idx, chunk in enumerate(chunks[:4]):
+            raw_text = chunk.get("text", "")
+            doc_name = chunk.get("source_document", "Document")
+            page_num = chunk.get("page_number", 1)
 
-        for sentence in sentences:
-            sentence_words = set(sentence.lower().split())
-            overlap = len(query_words.intersection(sentence_words))
-            if overlap > best_overlap:
-                best_overlap = overlap
-                best_sentence = sentence
+            # Split by sentence or bullet point
+            parts = re.split(r"(?<=[.!?])\s+|\n+", raw_text)
+            for part in parts:
+                cleaned_part = part.strip()
+                if len(cleaned_part) < 20 or cleaned_part in seen_sentences:
+                    continue
 
-        if best_sentence and best_overlap > 0:
-            return (
-                f"Based on [Source 1: {top_chunk.get('source_document', 'Document')}, "
-                f"Page {top_chunk.get('page_number', 1)}]:\n\n"
-                f"{best_sentence}.\n\n"
-                f"*(Note: Generated via extractive grounded fallback as Ollama was offline)*"
-            )
+                part_words = set(re.findall(r"\w+", cleaned_part.lower()))
+                overlap = len(meaningful_query_words.intersection(part_words))
 
+                # Boost sentences containing numbers, percentages, currency, or criteria
+                has_entity = bool(re.search(r"(\d+%|\bINR\b|\b\d+\b|credits?|grade|fees?|cgpa|attendance)", cleaned_part, re.I))
+                score = overlap + (1.5 if has_entity and overlap > 0 else 0) - (chunk_idx * 0.2)
+
+                if overlap > 0:
+                    scored_sentences.append((score, cleaned_part, chunk_idx + 1, doc_name, page_num))
+                    seen_sentences.add(cleaned_part)
+
+        scored_sentences.sort(key=lambda x: x[0], reverse=True)
+
+        if scored_sentences:
+            top_points = scored_sentences[:4]
+            lines = ["Based on verified official documentation:\n"]
+            for s in top_points:
+                lines.append(f"• **{s[1]}** [Source {s[2]}: {s[3]}, Page {s[4]}]")
+            return "\n\n".join(lines)
+
+        # Fallback to top chunk snippet if no direct keyword overlap
+        top = chunks[0]
+        snippet = top.get("text", "").strip()[:350]
         return (
-            f"Based on the domain documentation [Source 1]:\n\n{text[:250]}...\n\n"
-            f"*(Note: Generated via extractive grounded fallback as Ollama was offline)*"
+            f"Based on the active domain document [{top.get('source_document')}, Page {top.get('page_number', 1)}]:\n\n"
+            f"> {snippet}...\n\n"
+            f"[Source 1: {top.get('source_document')}, Page {top.get('page_number', 1)}]"
         )
