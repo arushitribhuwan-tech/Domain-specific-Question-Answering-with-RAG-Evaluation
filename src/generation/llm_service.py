@@ -190,55 +190,145 @@ class LLMService:
 
     def _smart_synthesis_fallback(self, query: str, chunks: List[Dict[str, Any]]) -> str:
         """
-        Synthesizes an informative, structured answer by scoring sentences across all top chunks.
+        Synthesizes an informative, structured answer by extracting definitions,
+        key characteristics, and examples directly from retrieved domain chunks.
         """
         if not chunks:
-            return "I do not have enough information in the provided domain documents to answer this question."
+            return "I do not have enough information in the provided domain document to answer this question."
 
-        query_tokens = set(re.findall(r"\w+", query.lower()))
-        stopwords = {"what", "is", "the", "are", "of", "in", "to", "for", "and", "a", "an", "how", "can", "do", "does"}
-        meaningful_query_words = query_tokens - stopwords
+        stopwords = {
+            "what", "is", "the", "are", "of", "in", "to", "for", "and", "a", "an",
+            "how", "can", "do", "does", "explain", "describe", "define", "give",
+            "tell", "me", "about", "which", "why", "who", "where", "when"
+        }
+        query_tokens = [w.lower() for w in re.findall(r"\w+", query) if w.lower() not in stopwords]
+        if not query_tokens:
+            query_tokens = [w.lower() for w in re.findall(r"\w+", query)]
 
-        scored_sentences = []
-        seen_sentences = set()
+        # Specific domain topic word (e.g., 'ordinal' rather than generic 'data')
+        generic_words = {"data", "information", "detail", "details", "concept", "types", "system", "rule", "policy"}
+        specific_terms = [t for t in query_tokens if t not in generic_words]
+        target_term = specific_terms[0] if specific_terms else (query_tokens[0] if query_tokens else "")
 
-        for chunk_idx, chunk in enumerate(chunks[:4]):
+        definitions = []
+        characteristics = []
+        examples = []
+        notes = []
+        supporting_sentences = []
+        seen = set()
+
+        for chunk_idx, chunk in enumerate(chunks[:5]):
             raw_text = chunk.get("text", "")
-            doc_name = chunk.get("source_document", "Document")
-            page_num = chunk.get("page_number", 1)
+            raw_lines = [l.strip() for l in raw_text.split("\n") if l.strip()]
 
-            # Split by sentence or bullet point
-            parts = re.split(r"(?<=[.!?])\s+|\n+", raw_text)
-            for part in parts:
-                cleaned_part = part.strip()
-                if len(cleaned_part) < 20 or cleaned_part in seen_sentences:
+            current_topic_active = bool(target_term and target_term in raw_text.lower())
+            in_example_block = False
+
+            for i, line in enumerate(raw_lines):
+                norm_line = line.lower().strip()
+
+                # Filter pure page markers, chapter numbers, or section headers
+                if re.match(r"^(page\s+\d+|\d+(\.\d+)*\s+[A-Za-z\s]+$|characteristics.*:$)", norm_line):
+                    if target_term and target_term in norm_line:
+                        current_topic_active = True
+                    elif any(other in norm_line for other in ["nominal data", "binary data", "continuous", "numerical", "graphical representation"]):
+                        if target_term not in norm_line:
+                            current_topic_active = False
+                    in_example_block = False
                     continue
 
-                part_words = set(re.findall(r"\w+", cleaned_part.lower()))
-                overlap = len(meaningful_query_words.intersection(part_words))
+                # Check if this line is a "Definition" header
+                if norm_line == "definition":
+                    if i + 1 < len(raw_lines):
+                        def_candidate = raw_lines[i + 1].strip()
+                        if i + 2 < len(raw_lines) and not def_candidate.endswith((".", ":", "!", "?")):
+                            def_candidate += " " + raw_lines[i + 2].strip()
+                        clean_def = re.sub(r"^(definition\s*:?|\d+(\.\d+)*\s*)", "", def_candidate, flags=re.I).strip()
+                        if target_term in def_candidate.lower() and clean_def.lower() not in seen:
+                            definitions.append(clean_def)
+                            seen.add(clean_def.lower())
+                            current_topic_active = True
+                    continue
 
-                # Boost sentences containing numbers, percentages, currency, or criteria
-                has_entity = bool(re.search(r"(\d+%|\bINR\b|\b\d+\b|credits?|grade|fees?|cgpa|attendance)", cleaned_part, re.I))
-                score = overlap + (1.5 if has_entity and overlap > 0 else 0) - (chunk_idx * 0.2)
+                # Check for "Examples:" header
+                if norm_line.startswith("example"):
+                    in_example_block = True
+                    continue
 
-                if overlap > 0:
-                    scored_sentences.append((score, cleaned_part, chunk_idx + 1, doc_name, page_num))
-                    seen_sentences.add(cleaned_part)
+                if norm_line in seen or len(norm_line) < 6:
+                    continue
 
-        scored_sentences.sort(key=lambda x: x[0], reverse=True)
+                clean_text = re.sub(r"^[•\-\*\u2022\uFFFD\d\.\)]\s*", "", line).strip()
+                clean_text = re.sub(r"^(definition\s*:?|important point\s*:?|\d+(\.\d+)*\s*)", "", clean_text, flags=re.I).strip()
 
-        if scored_sentences:
-            top_points = scored_sentences[:4]
-            lines = ["Based on verified official documentation:\n"]
-            for s in top_points:
-                lines.append(f"• **{s[1]}** [Source {s[2]}: {s[3]}, Page {s[4]}]")
-            return "\n\n".join(lines)
+                is_bullet = bool(re.match(r"^[•\-\*\u2022\uFFFD]", line))
 
-        # Fallback to top chunk snippet if no direct keyword overlap
-        top = chunks[0]
-        snippet = top.get("text", "").strip()[:350]
-        return (
-            f"Based on the active domain document [{top.get('source_document')}, Page {top.get('page_number', 1)}]:\n\n"
-            f"> {snippet}...\n\n"
-            f"[Source 1: {top.get('source_document')}, Page {top.get('page_number', 1)}]"
-        )
+                if is_bullet:
+                    in_example_block = False
+
+                # Extract definitions matching inline sentence patterns
+                if target_term and target_term in norm_line and not definitions:
+                    if re.search(r"\b(called|defined as|refers to|means|is defined|possess|consists of)\b", norm_line):
+                        def_candidate = clean_text
+                        if i + 1 < len(raw_lines) and not def_candidate.endswith((".", "!", "?")):
+                            def_candidate += " " + raw_lines[i + 1].strip()
+                        definitions.append(def_candidate)
+                        seen.add(norm_line)
+                        current_topic_active = True
+                        continue
+
+                # Collect examples
+                if in_example_block and current_topic_active and len(examples) < 5:
+                    if not re.match(r"^(variable|basis|field|categories|meaning|ranking)", norm_line) and len(clean_text) > 4:
+                        examples.append(clean_text)
+                        seen.add(norm_line)
+                # Collect bullet points / characteristics
+                elif is_bullet and current_topic_active and len(characteristics) < 5:
+                    if "no ranking" not in norm_line and clean_text.lower() not in seen:
+                        characteristics.append(clean_text)
+                        seen.add(clean_text.lower())
+                # Collect important notes / distinctions
+                elif "important point" in norm_line or (i > 0 and "important point" in raw_lines[i - 1].lower()):
+                    if current_topic_active and len(notes) < 2 and norm_line != "important point":
+                        note_candidate = clean_text
+                        if i + 1 < len(raw_lines) and not note_candidate.endswith((".", "!", "?")):
+                            note_candidate += " " + raw_lines[i + 1].strip()
+                        notes.append(note_candidate)
+                        seen.add(norm_line)
+                # General high-overlap sentences as backup
+                elif target_term in norm_line and len(supporting_sentences) < 4:
+                    if len(clean_text) > 25 and not re.match(r"^\d+\.\d+", line):
+                        supporting_sentences.append(clean_text)
+                        seen.add(norm_line)
+
+        sections = []
+        if definitions:
+            def_text = "\n\n".join(definitions)
+            sections.append(f"### 📌 Definition\n{def_text}")
+        elif supporting_sentences:
+            sections.append(f"### 📌 Overview\n{supporting_sentences[0]}")
+
+        if characteristics:
+            char_text = "\n".join(f"• {c}" for c in characteristics)
+            sections.append(f"### 🔑 Key Characteristics\n{char_text}")
+
+        if examples:
+            clean_ex = [e for e in examples if len(e.strip()) > 3]
+            if clean_ex:
+                ex_text = "\n".join(f"• {e}" for e in clean_ex)
+                sections.append(f"### 💡 Examples from Document\n{ex_text}")
+
+        if notes:
+            clean_notes = [n for n in notes if n.lower() != "important point" and len(n.strip()) > 10]
+            if clean_notes:
+                sections.append(f"### ℹ️ Key Note\n" + "\n\n".join(clean_notes))
+
+        if not sections and supporting_sentences:
+            sections.append("### 📌 Verified Facts\n" + "\n".join(f"• {p}" for p in supporting_sentences[:3]))
+
+        if not sections:
+            top = chunks[0]
+            snippet = top.get("text", "").strip()[:400]
+            return f"Based on the active domain document:\n\n> {snippet}..."
+
+        return "\n\n".join(sections)

@@ -281,11 +281,13 @@ with st.sidebar:
     # Pipeline Settings & System Health
     st.markdown("### ⚙️ Engine Settings")
     groq_api_key = st.text_input(
-        "🔑 Groq API Key (Free, Optional)",
+        "🔑 Groq API Key (Recommended - Free)",
         type="password",
         value=os.environ.get("GROQ_API_KEY", ""),
         help="Paste a free Groq API key from https://console.groq.com/keys for instant, highly accurate Llama-3.3-70B answers!"
     )
+    if not (groq_api_key and len(groq_api_key.strip()) > 10):
+        st.markdown("👉 *[Click here to get a free Groq Key](https://console.groq.com/keys) for full AI answers!*")
 
     top_k = st.slider("Top-K Retrieval", min_value=1, max_value=10, value=config.get("retrieval", {}).get("top_k", 5))
     temperature = st.slider("LLM Temperature", min_value=0.0, max_value=1.0, value=float(config.get("llm", {}).get("temperature", 0.1)), step=0.05)

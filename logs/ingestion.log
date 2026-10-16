@@ -121,3 +121,24 @@
 [2026-10-16 06:33:58] [INFO] [EmbeddingService]: Loaded embedding model: 'sentence-transformers/all-MiniLM-L6-v2' on cpu
 [2026-10-16 06:33:58] [INFO] [EmbeddingService]: Connected to ChromaDB collection 'domain_knowledge_base' at 'C:\Users\Tribhuwan\AppData\Local\Temp\pytest-of-Tribhuwan\pytest-1\test_retriever_formatting0\chroma_test2'.
 [2026-10-16 06:33:58] [INFO] [EmbeddingService]: Successfully indexed 1 chunks into ChromaDB collection 'domain_knowledge_base'.
+[2026-10-16 06:51:52] [INFO] [EmbeddingService]: Loaded embedding model: 'sentence-transformers/all-MiniLM-L6-v2' on cpu
+[2026-10-16 06:51:55] [INFO] [EmbeddingService]: Connected to ChromaDB collection 'domain_knowledge_base' at 'vectorstore/chroma_db'.
+[2026-10-16 07:00:08] [INFO] [EmbeddingService]: Loaded embedding model: 'sentence-transformers/all-MiniLM-L6-v2' on cpu
+[2026-10-16 07:00:09] [INFO] [EmbeddingService]: Connected to ChromaDB collection 'domain_knowledge_base' at 'vectorstore/chroma_db'.
+[2026-10-16 07:02:12] [INFO] [EmbeddingService]: Loaded embedding model: 'sentence-transformers/all-MiniLM-L6-v2' on cpu
+[2026-10-16 07:02:13] [INFO] [EmbeddingService]: Connected to ChromaDB collection 'domain_knowledge_base' at 'vectorstore/chroma_db'.
+[2026-10-16 07:08:58] [INFO] [EmbeddingService]: Loaded embedding model: 'sentence-transformers/all-MiniLM-L6-v2' on cpu
+[2026-10-16 07:09:01] [INFO] [EmbeddingService]: Connected to ChromaDB collection 'domain_knowledge_base' at 'vectorstore/chroma_db'.
+[2026-10-16 07:13:07] [INFO] [DocumentChunker]: LangChain not installed. Using built-in recursive chunker.
+[2026-10-16 07:13:07] [INFO] [DocumentChunker]: Chunked 1 documents into 15 chunks.
+[2026-10-16 07:13:07] [INFO] [DocumentChunker]: Saved chunks summary to 'data/processed\chunks_summary.json'.
+[2026-10-16 07:13:07] [WARNING] [DocumentLoader]: No files found in 'data/non_existent_folder_xyz'.
+[2026-10-16 07:13:30] [INFO] [EmbeddingService]: Loaded embedding model: 'sentence-transformers/all-MiniLM-L6-v2' on cpu
+[2026-10-16 07:13:35] [INFO] [EmbeddingService]: Loaded embedding model: 'sentence-transformers/all-MiniLM-L6-v2' on cpu
+[2026-10-16 07:13:36] [INFO] [EmbeddingService]: Connected to ChromaDB collection 'domain_knowledge_base' at 'C:\Users\Tribhuwan\AppData\Local\Temp\pytest-of-Tribhuwan\pytest-2\test_vector_indexing_and_simil0\chroma_test'.
+[2026-10-16 07:13:37] [INFO] [EmbeddingService]: Successfully indexed 2 chunks into ChromaDB collection 'domain_knowledge_base'.
+[2026-10-16 07:13:41] [INFO] [EmbeddingService]: Loaded embedding model: 'sentence-transformers/all-MiniLM-L6-v2' on cpu
+[2026-10-16 07:13:41] [INFO] [EmbeddingService]: Connected to ChromaDB collection 'domain_knowledge_base' at 'C:\Users\Tribhuwan\AppData\Local\Temp\pytest-of-Tribhuwan\pytest-2\test_retriever_formatting0\chroma_test2'.
+[2026-10-16 07:13:42] [INFO] [EmbeddingService]: Successfully indexed 1 chunks into ChromaDB collection 'domain_knowledge_base'.
+[2026-10-16 07:17:08] [INFO] [EmbeddingService]: Loaded embedding model: 'sentence-transformers/all-MiniLM-L6-v2' on cpu
+[2026-10-16 07:17:10] [INFO] [EmbeddingService]: Connected to ChromaDB collection 'domain_knowledge_base' at 'vectorstore/chroma_db'.
