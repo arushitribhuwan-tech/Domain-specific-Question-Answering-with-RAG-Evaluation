@@ -29,13 +29,15 @@ class Retriever:
         self.bm25 = None
         self.corpus_chunks: List[Dict[str, Any]] = []
 
-    def retrieve(self, query: str, k: Optional[int] = None) -> List[Dict[str, Any]]:
+    def retrieve(self, query: str, k: Optional[int] = None, filter_document: Optional[str] = None) -> List[Dict[str, Any]]:
         """
         Retrieves top-k relevant chunks for a given user query.
+        Optionally scopes search to a specific filter_document.
 
         Args:
             query: Question or search string.
             k: Optional override for top-k results.
+            filter_document: Optional specific document name to restrict retrieval.
 
         Returns:
             List of chunk dicts:
@@ -53,7 +55,7 @@ class Retriever:
             return []
 
         # 1. Dense vector similarity search
-        vector_results = self.vectorstore.similarity_search(query, k=effective_k * 2)
+        vector_results = self.vectorstore.similarity_search(query, k=effective_k * 2, filter_document=filter_document)
 
         if not vector_results:
             logger.warning(f"No vector chunks found for query: '{query}'")

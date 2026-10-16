@@ -153,9 +153,10 @@ class VectorStoreService:
             logger.info(f"Indexed {len(chunks)} chunks into in-memory fallback store.")
             return len(chunks)
 
-    def similarity_search(self, query: str, k: int = 5) -> List[Dict[str, Any]]:
+    def similarity_search(self, query: str, k: int = 5, filter_document: Optional[str] = None) -> List[Dict[str, Any]]:
         """
         Performs cosine similarity search for top-k matching chunks.
+        Optionally filters results to a specific source_document.
 
         Returns:
             List of chunk dicts: [{'chunk_id': str, 'text': str, 'metadata': dict, 'score': float}]
@@ -163,11 +164,23 @@ class VectorStoreService:
         query_vector = self.embedding_service.embed_text(query)
 
         if self.collection is not None and self.collection.count() > 0:
-            results = self.collection.query(
-                query_embeddings=[query_vector],
-                n_results=min(k, self.collection.count()),
-                include=["documents", "metadatas", "distances"]
-            )
+            query_kwargs = {
+                "query_embeddings": [query_vector],
+                "n_results": min(k, self.collection.count()),
+                "include": ["documents", "metadatas", "distances"]
+            }
+            if filter_document:
+                query_kwargs["where"] = {"source_document": filter_document}
+
+            try:
+                results = self.collection.query(**query_kwargs)
+            except Exception as e:
+                logger.warning(f"Filtered query failed ({e}), retrying without filter: {e}")
+                results = self.collection.query(
+                    query_embeddings=[query_vector],
+                    n_results=min(k, self.collection.count()),
+                    include=["documents", "metadatas", "distances"]
+                )
 
             retrieved = []
             docs = results.get("documents", [[]])[0]
@@ -188,9 +201,14 @@ class VectorStoreService:
             return retrieved
 
         elif hasattr(self, "_in_memory_store") and self._in_memory_store:
-            # Simple dot product on normalized pseudo-embeddings
             scored = []
-            for item in self._in_memory_store:
+            candidates = self._in_memory_store
+            if filter_document:
+                matched = [c for c in candidates if c.get("metadata", {}).get("source_document") == filter_document]
+                if matched:
+                    candidates = matched
+
+            for item in candidates:
                 vec = item["embedding"]
                 dot = sum(a * b for a, b in zip(query_vector, vec))
                 scored.append((dot, item))
@@ -215,6 +233,23 @@ class VectorStoreService:
         if hasattr(self, "_in_memory_store"):
             return len(self._in_memory_store)
         return 0
+
+    def get_all_source_documents(self) -> List[str]:
+        """Returns list of distinct source document names indexed in vector store."""
+        docs = set()
+        if self.collection is not None and self.collection.count() > 0:
+            try:
+                res = self.collection.get(include=["metadatas"])
+                for m in res.get("metadatas", []):
+                    if m and "source_document" in m:
+                        docs.add(m["source_document"])
+            except Exception:
+                pass
+        if hasattr(self, "_in_memory_store"):
+            for item in self._in_memory_store:
+                if "source_document" in meta:
+                    docs.add(meta["source_document"])
+        return sorted(list(docs))
 
     def reset_index(self):
         """Clears the collection to allow fresh re-indexing."""

@@ -63,6 +63,47 @@ class DocumentLoader:
         logger.info(f"Ingested total of {len(loaded_documents)} document sections from {len(files)} files.")
         return loaded_documents
 
+    def load_single_file(self, file_path: str, filename: str = None) -> List[Dict[str, Any]]:
+        """Extracts text sections from a single specified file."""
+        if not os.path.exists(file_path):
+            logger.warning(f"File '{file_path}' does not exist.")
+            return []
+
+        name = filename or os.path.basename(file_path)
+        ext = os.path.splitext(name)[1].lower()
+        try:
+            if ext == ".pdf":
+                return self._load_pdf(file_path, name)
+            elif ext in [".txt", ".md"]:
+                return self._load_text(file_path, name)
+            elif ext in [".html", ".htm"]:
+                return self._load_html(file_path, name)
+            elif ext == ".docx":
+                return self._load_docx(file_path, name)
+            else:
+                return self._load_text(file_path, name)
+        except Exception as e:
+            logger.error(f"Error loading single file '{name}': {e}")
+            return []
+
+    def _load_docx(self, file_path: str, filename: str) -> List[Dict[str, Any]]:
+        """Reads .docx files using python-docx if installed, or fallback."""
+        try:
+            import docx
+            doc = docx.Document(file_path)
+            full_text = "\n".join([p.text for p in doc.paragraphs if p.text.strip()])
+            if full_text.strip():
+                return [{
+                    "text": full_text,
+                    "metadata": {
+                        "source_document": filename,
+                        "page_number": 1
+                    }
+                }]
+        except Exception:
+            pass
+        return self._load_text(file_path, filename)
+
     def _load_pdf(self, file_path: str, filename: str) -> List[Dict[str, Any]]:
         """Extracts text page-by-page from a PDF using pypdf or PyMuPDF."""
         docs = []
